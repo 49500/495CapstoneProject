@@ -15,9 +15,9 @@ def preprocess_text(text):
     # Remove currency values 
     # text = re.sub(r'£\d+(?:\.\d+)?|€\d+(?:\.\d+)?|\$\d+(?:\.\d+)?', '', text)
     # Replace hyphens with spaces 
-    text = text.replace('-', ' ')
+    text = text.replace('-', '')
     # Replace apostrophes with spaces 
-    text = text.replace("'", ' ')
+    text = text.replace("'", '')
     return text
 
 with open(input_file, 'r', newline='', encoding='utf-8') as infile, \
