@@ -15,9 +15,9 @@ def preprocess_text(text):
     # Remove currency values 
     # text = re.sub(r'£\d+(?:\.\d+)?|€\d+(?:\.\d+)?|\$\d+(?:\.\d+)?', '', text)
     # Replace hyphens with spaces 
-    text = text.replace('-', '')
+    text = text.replace('-', ' ')
     # Replace apostrophes with spaces 
-    text = text.replace("'", '')
+    text = text.replace("'", ' ')
     return text
 
 with open(input_file, 'r', newline='', encoding='utf-8') as infile, \
@@ -42,7 +42,7 @@ with open(input_file, 'r', newline='', encoding='utf-8') as infile, \
         doc = nlp(preprocessed_text)
 
         # Filter tokens retain numbers, remove single letters, stopwords, and punctuation
-        filtered_tokens = [token.text for token in doc if not token.is_stop and not token.is_punct and (token.like_num or len(token.text) > 1)  #
+        filtered_tokens = [token.lemma_ for token in doc if not token.is_stop and not token.is_punct and (token.like_num or len(token.text) > 1)  #
         ]
         
         # Remove empty tokens
