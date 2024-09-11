@@ -27,13 +27,21 @@ with open(input_file, 'r', newline='', encoding='utf-8') as infile, \
     writer = csv.writer(outfile)
 
     header = next(reader)  # Skip the header row if present
-    writer.writerow(header)  # Write the header row into the output file (optional)
-
-    # Iterate through each row in the CSV
+        
+    # Write the header row into the output file
+    if header: 
+      writer.writerow(header)
+        
+    # Process each row in the input CSV file
     for row in reader:
-        # Assume the text to tokenize is in the correct column
-        category = row[0]
-        text = row[1]
+        if len(row) == 2:
+            # File with 2 columns: [category, text]
+            category = row[0]
+            text = row[1]
+        elif len(row) == 1:
+            # File with 1 column: [text only]
+            category = None
+            text = row[0]
 
         # Preprocess the text
         preprocessed_text = preprocess_text(text)
@@ -52,8 +60,11 @@ with open(input_file, 'r', newline='', encoding='utf-8') as infile, \
         tokenized_text = ' '.join(filtered_tokens)
         
         # Write non-empty filtered tokens to the new CSV file
-        if filtered_tokens:
-            writer.writerow([category] + filtered_tokens)
+        if tokenized_text:
+            if category:  # If category exists, write both category and tokenized text
+                writer.writerow([category, tokenized_text])
+            else:  # If no category, write only the tokenized text
+                writer.writerow([tokenized_text])
 
 print(f"Processed data has been written to {output_file}")
 
