@@ -1,5 +1,5 @@
 # Capstone Project
-Authors: Samuel Theising, JT Wellspring, and Nassim Zerroua.
+Authors: Samuel Theising, JT Wellspring, and Nassim Zerrouak.
 
 Will be following the footsteps of Prof. Chowdhury and testing a Mutual Learning Algorithm.
 ### How to run the program
