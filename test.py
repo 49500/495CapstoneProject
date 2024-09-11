@@ -48,6 +48,9 @@ with open(input_file, 'r', newline='', encoding='utf-8') as infile, \
         # Remove empty tokens
         filtered_tokens = [token for token in filtered_tokens if token.strip()]
 
+        # Concatenate tokens into a string for cleaner CSV writing
+        tokenized_text = ' '.join(filtered_tokens)
+        
         # Write non-empty filtered tokens to the new CSV file
         if filtered_tokens:
             writer.writerow([category] + filtered_tokens)
