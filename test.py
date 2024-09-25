@@ -6,8 +6,8 @@ import re
 
 warnings.filterwarnings("ignore", category=FutureWarning)
 
-input_file = r"BBC_train_full.csv"
-output_file = r"BBC_train_full_tokens.csv"
+input_file = r"test_data.csv"
+output_file = r"test_data_tokens.csv"
 
 nlp = spacy.load("en_core_web_sm")
 
