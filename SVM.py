@@ -3,6 +3,7 @@ from sklearn.svm import SVC
 from sklearn.preprocessing import LabelEncoder
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics import classification_report, accuracy_score
+from joblib import dump, load
 
 # File paths
 train_file = r"BBC_train_full_tokens.csv"
@@ -33,6 +34,7 @@ with open(train_file, 'r', newline='', encoding='utf-8') as file:
             if text:
                 train_labels.append(category)
                 train_texts.append(text)
+
 
 # Encode training labels using the same encoder as before
 encoded_train_labels = encoder.transform(train_labels)
@@ -75,6 +77,9 @@ svm_model.fit(X_train, encoded_train_labels)
 
 # Step 5: Predict on the test data
 y_pred = svm_model.predict(X_test)
+
+#Save model
+dump(svm_model, 'svm_model.joblib')
 
 # Step 6: Evaluate the model
 print("Accuracy:", accuracy_score(encoded_test_labels, y_pred))
