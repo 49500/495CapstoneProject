@@ -8,9 +8,9 @@ test_file = r"Data/test_data_tokens.csv"
 test_labels_file = r"Data/test_labels.csv"
 
 # Check tokens in the files
-check_tokens(train_file)
-check_tokens(test_file)
-check_tokens(test_labels_file)
+#check_tokens(train_file)
+#check_tokens(test_file)
+#check_tokens(test_labels_file)
 
 # Step 1: Load and process training data
 train_texts = []

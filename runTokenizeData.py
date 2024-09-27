@@ -1,11 +1,11 @@
 import os
-from Preprocessing.tokenize import tokenize_file
+from Preprocessing.tokenizer import tokenize_file
 
 # Define input and output file paths
-input_train_file = 'data/BBC_train_full.csv'
-output_train_file = 'data/BBC_train_full_tokens.csv'
-input_test_file = 'data/test_data.csv'
-output_test_file = 'data/test_data_tokens.csv'
+input_train_file = 'Data/BBC_train_full.csv'
+output_train_file = 'Data/BBC_train_full_tokens.csv'
+input_test_file = 'Data/test_data.csv'
+output_test_file = 'Data/test_data_tokens.csv'
 
 # Ensure the output directory exists
 os.makedirs(os.path.dirname(output_train_file), exist_ok=True)
