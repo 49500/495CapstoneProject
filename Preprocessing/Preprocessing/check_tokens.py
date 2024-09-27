@@ -19,5 +19,8 @@ def check_tokens(input_file):
     print('File done.')
 
 if __name__ == "__main__":
-    input_file = r"data/test_data_tokens.csv"
-    check_tokens(input_file)
+    import sys
+    if len(sys.argv) > 1:
+        check_tokens(sys.argv[1])
+    else:
+        print("Please provide a file to check.")
