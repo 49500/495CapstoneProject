@@ -3,7 +3,7 @@ from Preprocessing.SVM import train_and_evaluate_svm
 from Preprocessing.check_tokens import check_tokens
 
 # File paths
-train_file = r"Data/BBC_train_full_tokens.csv"
+train_file = r"Data/BBC_train_2_tokens.csv"
 test_file = r"Data/test_data_tokens.csv"
 test_labels_file = r"Data/test_labels.csv"
 
