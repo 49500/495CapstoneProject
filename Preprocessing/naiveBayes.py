@@ -2,6 +2,8 @@ import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.metrics import accuracy_score, classification_report
+import numpy as np
+from sklearn.preprocessing import LabelEncoder
 
 def load_data(train_file, test_file, test_labels_file):
     # Load preprocessed training data
@@ -56,3 +58,18 @@ def evaluate_model(model, X_test, y_test):
     report = classification_report(y_test, predictions)
 
     return accuracy, report
+
+def mutual_learning_with_confidence(model_a, model_b, X_train_a, y_train_a, X_train_b, y_train_b, threshold=0.8):
+    # Model A predicts on B's training data, and Model B predicts on A's training data
+    prob_b_on_a = model_b.predict_proba(X_train_a)
+    prob_a_on_b = model_a.predict_proba(X_train_b)
+
+    # Apply a confidence threshold: only use predictions where the probability is higher than the threshold
+    confident_pred_b_on_a = np.where(np.max(prob_b_on_a, axis=1) > threshold, np.argmax(prob_b_on_a, axis=1), y_train_a)
+    confident_pred_a_on_b = np.where(np.max(prob_a_on_b, axis=1) > threshold, np.argmax(prob_a_on_b, axis=1), y_train_b)
+
+    # Update both models using only confident predictions
+    model_a.partial_fit(X_train_a, confident_pred_b_on_a)  # Update A with confident predictions from B
+    model_b.partial_fit(X_train_b, confident_pred_a_on_b)  # Update B with confident predictions from A
+
+    return model_a, model_b
