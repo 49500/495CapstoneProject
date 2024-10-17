@@ -1,8 +1,12 @@
-import csv
 import spacy
+import csv
+from nltk.stem import PorterStemmer
 
 # Load the spaCy model
 nlp = spacy.load('en_core_web_sm')
+
+# Initialize the PorterStemmer
+stemmer = PorterStemmer()
 
 def preprocess_text(text):
     # Add any additional preprocessing steps here
@@ -32,11 +36,14 @@ def tokenize_file(input_file, output_file):
             # Filter tokens: retain numbers, remove single letters, stopwords, and punctuation
             filtered_tokens = [token.lemma_ for token in doc if not token.is_stop and not token.is_punct and (token.like_num or len(token.text) > 1)]
             
+            # Apply stemming to the filtered tokens
+            stemmed_tokens = [stemmer.stem(token) for token in filtered_tokens]
+
             # Remove empty tokens
-            filtered_tokens = [token for token in filtered_tokens if token.strip()]
+            stemmed_tokens = [token for token in stemmed_tokens if token.strip()]
 
             # Concatenate tokens into a string for cleaner CSV writing
-            tokenized_text = ' '.join(filtered_tokens)
+            tokenized_text = ' '.join(stemmed_tokens)
             
             # Write non-empty filtered tokens to the new CSV file
             if tokenized_text:
@@ -45,4 +52,5 @@ def tokenize_file(input_file, output_file):
                 else:  # If no category, write only the tokenized text
                     writer.writerow([tokenized_text])
 
-    print(f"Processed data has been written to {output_file}")
+
+# tokenize_file('input.csv', 'output.csv')
