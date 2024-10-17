@@ -78,6 +78,7 @@ def train_and_evaluate_svm(train_texts, train_labels, test_texts, test_labels, n
     # Save models
     dump(model_a, 'svm_model_a.joblib')
     dump(model_b, 'svm_model_b.joblib')
+    dump(vectorizer,'vectorizer.joblib')
 
     # Evaluate the models
     print("Model A Accuracy:", accuracy_score(encoded_test_labels, y_pred_a))

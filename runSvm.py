@@ -5,7 +5,7 @@ from sklearn.metrics import accuracy_score
 from Preprocessing.SVM import train_and_evaluate_svm
 
 # File paths
-train_file_1 = r"Data/BBC_train_1_tokens.csv"
+train_file_1 = r"Data/BBC_train_2_tokens.csv"
 test_file = r"Data/test_data_tokens.csv"
 test_labels_file = r"Data/test_labels.csv"
 
@@ -32,7 +32,7 @@ train_texts_1, train_labels_1 = load_data(train_file_1)
 train_texts = train_texts_1 
 train_labels = train_labels_1 
 
-print(len(train_texts))
+
 subset_size = 500
 subset_indices = random.sample(range(len(train_texts)), subset_size)
 train_texts = [train_texts[i] for i in subset_indices]
