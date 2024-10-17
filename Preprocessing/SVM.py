@@ -32,7 +32,8 @@ def train_and_evaluate_svm(train_texts, train_labels, test_texts, test_labels, n
     model_b = SVC(kernel='linear', probability=True, random_state=24)
 
     # Use different subsets of the training data for initial training
-    subset_size = int(0.8 * len(train_texts))
+    subset_size = min(int(0.8 * len(train_texts)), len(train_texts))  # Ensure subset size is not larger than available data
+
     subset_indices_a = random.sample(range(len(train_texts)), subset_size)
     subset_indices_b = random.sample(range(len(train_texts)), subset_size)
     
