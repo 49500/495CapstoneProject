@@ -9,7 +9,7 @@ import random
 # Categories list
 categories = ['tech', 'business', 'sport', 'politics', 'entertainment']
 
-def train_and_evaluate_svm(train_texts, train_labels, test_texts, test_labels, num_epochs=5):
+def train_and_evaluate_svm(train_texts, train_labels, test_texts, test_labels, num_epochs=3):
     # Initialize LabelEncoder -- converts category labels into numeric values
     encoder = LabelEncoder()
     encoder.fit(categories) # Fit on predefined categories
