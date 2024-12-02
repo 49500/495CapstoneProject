@@ -1,0 +1,31 @@
+SVM Model Accuracy: 0.97
+SVM Model Classification Report:
+               precision    recall  f1-score   support
+
+         tech       0.94      0.97      0.95       144
+     business       0.98      0.96      0.97        83
+        sport       0.96      0.93      0.95       105
+     politics       1.00      0.99      1.00       134
+entertainment       0.96      0.97      0.97       112
+
+     accuracy                           0.97       578
+    macro avg       0.97      0.97      0.97       578
+ weighted avg       0.97      0.97      0.97       578
+
+
+Naive Bayes Model Accuracy: 0.95
+Naive Bayes Model Classification Report:
+               precision    recall  f1-score   support
+
+         tech       0.99      0.94      0.96       144
+     business       0.99      0.88      0.93        83
+        sport       0.88      0.97      0.92       105
+     politics       0.99      0.99      0.99       134
+entertainment       0.93      0.96      0.94       112
+
+     accuracy                           0.95       578
+    macro avg       0.95      0.95      0.95       578
+ weighted avg       0.96      0.95      0.95       578
+
+
+The more accurate model is: SVM Model with an accuracy of 0.97

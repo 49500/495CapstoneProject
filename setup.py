@@ -8,5 +8,7 @@ setup(
         'pandas',
         'scikit-learn',
         'spacy',
+        'nltk',
+        'joblib',
     ],
 )
