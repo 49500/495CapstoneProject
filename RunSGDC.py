@@ -76,7 +76,7 @@ test_labels = load_test_labels(test_labels_file)
 
 # Initialize or load vectorizer
 if not os.path.exists(vectorizer_file):
-    vectorizer = TfidfVectorizer(max_features=5000)
+    vectorizer = TfidfVectorizer(max_features=10516)
     train_vectors = vectorizer.fit_transform(train_texts).toarray()
     joblib.dump(vectorizer, vectorizer_file)
 else:
