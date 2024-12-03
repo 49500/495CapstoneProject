@@ -1,7 +1,9 @@
 import pandas as pd
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.naive_bayes import MultinomialNB
+from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
 from joblib import dump
+import matplotlib.pyplot as plt
 
 # Load BBC_train_1_tokens and BBC_train_3_tokens_unlabeled
 bbc_train_1_path = 'Data/BBC_train_1_tokens.csv'
@@ -48,3 +50,19 @@ bbc_train_3_predictions_with_prob.to_csv(predictions_with_prob_output_path, inde
 
 # Print a message indicating the file has been saved
 print(f"Predictions with probabilities have been saved to {predictions_with_prob_output_path}")
+
+# Generate and save the confusion matrix
+y_true = bbc_train_1['category']
+y_pred = nb_model.predict(X_train_transformed)
+cm = confusion_matrix(y_true, y_pred, labels=nb_model.classes_)
+disp = ConfusionMatrixDisplay(confusion_matrix=cm, display_labels=nb_model.classes_)
+
+# Plot and save the confusion matrix
+plt.figure(figsize=(10, 7))
+disp.plot(cmap=plt.cm.Blues, values_format='d')
+confusion_matrix_path = 'Charts/confusion_matrix.png'
+plt.savefig(confusion_matrix_path)
+plt.close()
+
+# Print a message indicating the confusion matrix has been saved
+print(f"Confusion matrix has been saved to {confusion_matrix_path}")

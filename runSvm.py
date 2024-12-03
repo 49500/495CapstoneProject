@@ -3,6 +3,8 @@ import random
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics import accuracy_score
 from Preprocessing.SVM import train_and_evaluate_svm
+from sklearn.metrics import confusion_matrix
+import seaborn as sns
 
 # File paths
 train_file_1 = r"Data/BBC_train_2_tokens.csv"
@@ -68,3 +70,26 @@ test_labels = load_test_labels(test_labels_file)
 
 # Call the function with the appropriate arguments
 train_and_evaluate_svm(train_texts, train_labels, test_texts, test_labels)
+import matplotlib.pyplot as plt
+
+# Train and evaluate the SVM model
+predicted_labels = train_and_evaluate_svm(train_texts, train_labels, test_texts, test_labels)
+
+# Calculate the confusion matrix
+conf_matrix = confusion_matrix(test_labels, predicted_labels)
+
+# Plot the confusion matrix
+plt.figure(figsize=(10, 7))
+sns.heatmap(conf_matrix, annot=True, fmt='d', cmap='Blues', xticklabels=set(test_labels), yticklabels=set(test_labels))
+plt.xlabel('Predicted Labels')
+plt.ylabel('True Labels')
+plt.title('Confusion Matrix')
+plt.show()
+
+# Plot the accuracy
+accuracy = accuracy_score(test_labels, predicted_labels)
+plt.figure(figsize=(6, 4))
+plt.bar(['Accuracy'], [accuracy])
+plt.ylim(0, 1)
+plt.title('Model Accuracy')
+plt.show()

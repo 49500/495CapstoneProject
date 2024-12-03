@@ -1,5 +1,7 @@
 import pandas as pd
 from sklearn.metrics import classification_report, accuracy_score
+from sklearn.metrics import confusion_matrix
+import seaborn as sns
 
 # Define file paths
 true_labels_path = 'Data/BBC_train_3_labels.csv'
@@ -52,3 +54,46 @@ else:
         f.write(f"The more accurate model is: {better_model} with an accuracy of {better_accuracy:.2f}\n")
 
     print(f"Comparison report has been saved to {results_output_path}")
+    import matplotlib.pyplot as plt
+
+    # Plot accuracies
+    models = ['SVM', 'Naive Bayes']
+    accuracies = [svm_accuracy, nb_accuracy]
+
+    plt.figure(figsize=(10, 5))
+    plt.bar(models, accuracies, color=['blue', 'green'])
+    plt.xlabel('Models')
+    plt.ylabel('Accuracy')
+    plt.title('Model Accuracy Comparison')
+    plt.ylim(0, 1)
+    for i, v in enumerate(accuracies):
+        plt.text(i, v + 0.01, f"{v:.2f}", ha='center', fontweight='bold')
+    plt.savefig('Model_Accuracy_Comparison.png')
+    plt.show()
+
+    print("Accuracy comparison chart has been saved as 'Model_Accuracy_Comparison.png'")
+    # Compute confusion matrices
+    svm_conf_matrix = confusion_matrix(true_labels, svm_predicted_labels)
+    nb_conf_matrix = confusion_matrix(true_labels, nb_predicted_labels)
+
+    # Plot confusion matrix for SVM
+    plt.figure(figsize=(10, 7))
+    sns.heatmap(svm_conf_matrix, annot=True, fmt='d', cmap='Blues', xticklabels=['tech', 'business', 'sport', 'politics', 'entertainment'], yticklabels=['tech', 'business', 'sport', 'politics', 'entertainment'])
+    plt.title('SVM Model Confusion Matrix')
+    plt.xlabel('Predicted')
+    plt.ylabel('True')
+    plt.savefig('SVM_Confusion_Matrix.png')
+    plt.show()
+
+    print("SVM confusion matrix has been saved as 'SVM_Confusion_Matrix.png'")
+
+    # Plot confusion matrix for Naive Bayes
+    plt.figure(figsize=(10, 7))
+    sns.heatmap(nb_conf_matrix, annot=True, fmt='d', cmap='Greens', xticklabels=['tech', 'business', 'sport', 'politics', 'entertainment'], yticklabels=['tech', 'business', 'sport', 'politics', 'entertainment'])
+    plt.title('Naive Bayes Model Confusion Matrix')
+    plt.xlabel('Predicted')
+    plt.ylabel('True')
+    plt.savefig('NB_Confusion_Matrix.png')
+    plt.show()
+
+    print("Naive Bayes confusion matrix has been saved as 'NB_Confusion_Matrix.png'")
