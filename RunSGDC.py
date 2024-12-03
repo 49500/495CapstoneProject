@@ -1,11 +1,13 @@
 import csv
 import random
 from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.metrics import accuracy_score, classification_report
+from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
 from sklearn.linear_model import SGDClassifier
 from sklearn.preprocessing import LabelEncoder
 import joblib
 import os
+import matplotlib.pyplot as plt
+import seaborn as sns
 
 # File paths
 train_file_1 = r"Data/BBC_train_2_tokens.csv"
@@ -14,6 +16,10 @@ test_labels_file = r"Data/test_labels.csv"
 sgdc_model_file = r"Joblib/sgdc_model.joblib"
 vectorizer_file = r"Joblib/vectorizer.joblib"
 label_encoder_file = r"Joblib/label_encoder.joblib"
+charts_folder = r"Charts"
+
+# Create Charts folder if it doesn't exist
+os.makedirs(charts_folder, exist_ok=True)
 
 # Number of epochs
 NUM_EPOCHS = 5
@@ -111,6 +117,16 @@ for epoch in range(NUM_EPOCHS):
     predictions = sgdc_model.predict(test_vectors)
     print(f"Epoch {epoch + 1} Accuracy: {accuracy_score(encoded_test_labels, predictions):.4f}")
     print(f"Epoch {epoch + 1} Classification Report:\n", classification_report(encoded_test_labels, predictions, target_names=label_encoder.classes_))
+
+    # Generate confusion matrix
+    cm = confusion_matrix(encoded_test_labels, predictions)
+    plt.figure(figsize=(10, 7))
+    sns.heatmap(cm, annot=True, fmt='d', cmap='Blues', xticklabels=label_encoder.classes_, yticklabels=label_encoder.classes_)
+    plt.xlabel('Predicted')
+    plt.ylabel('Actual')
+    plt.title(f'Confusion Matrix - Epoch {epoch + 1}')
+    plt.savefig(os.path.join(charts_folder, f'confusion_matrix_epoch_{epoch + 1}.png'))
+    plt.close()
 
 # Save the updated model
 joblib.dump(sgdc_model, sgdc_model_file)

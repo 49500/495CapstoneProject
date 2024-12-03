@@ -1,6 +1,7 @@
 from Preprocessing import load_data, vectorize_data, train_naive_bayes, evaluate_model
 from joblib import dump, load
 from Preprocessing import mutual_learning_with_confidence, evaluate_model
+import matplotlib.pyplot as plt
 
 # File paths
 train_file_a = 'Data/BBC_train_1_tokens.csv'
@@ -45,3 +46,32 @@ print(f"Classification Report B (After):\n{report_b_after}")
 # Save models after mutual learning
 dump(model_a_after, 'Joblib/naive_model_a.joblib')
 dump(model_b_after, 'Joblib/naive_model_b.joblib')
+
+# Plotting the accuracies
+labels = ['Before Mutual Learning', 'After Mutual Learning']
+accuracy_a = [accuracy_a_before, accuracy_a_after]
+accuracy_b = [accuracy_b_before, accuracy_b_after]
+
+x = range(len(labels))
+
+plt.figure(figsize=(10, 5))
+
+plt.subplot(1, 2, 1)
+plt.bar(x, accuracy_a, color='blue', width=0.4)
+plt.xticks(x, labels)
+plt.ylim(0, 1)
+plt.title('Naive Bayes A Accuracy')
+plt.xlabel('Stage')
+plt.ylabel('Accuracy')
+
+plt.subplot(1, 2, 2)
+plt.bar(x, accuracy_b, color='green', width=0.4)
+plt.xticks(x, labels)
+plt.ylim(0, 1)
+plt.title('Naive Bayes B Accuracy')
+plt.xlabel('Stage')
+plt.ylabel('Accuracy')
+
+plt.tight_layout()
+plt.savefig('Charts/naive_bayes_accuracy.png')
+plt.show()

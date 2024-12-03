@@ -5,6 +5,8 @@ from sklearn.preprocessing import LabelEncoder
 from sklearn.linear_model import SGDClassifier
 from sklearn.feature_extraction.text import TfidfVectorizer
 import os
+import seaborn as sns
+import numpy as np
 
 # File paths
 new_training_file = r"Data/BBC_3_training.csv"
@@ -109,3 +111,37 @@ print("Model Classification Report:\n", classification_report(encoded_test_label
 
 # Save the updated model
 joblib.dump(sgdc_model, sgdc_model_file)
+import matplotlib.pyplot as plt
+
+# Create Charts folder if it doesn't exist
+charts_folder = "Charts"
+if not os.path.exists(charts_folder):
+    os.makedirs(charts_folder)
+
+# Plot accuracy over epochs
+accuracies = []
+for epoch in range(epochs):
+    sgdc_model.partial_fit(train_vectors, encoded_train_labels, classes=list(range(len(label_encoder.classes_))))
+    predictions = sgdc_model.predict(test_vectors)
+    accuracy = accuracy_score(encoded_test_labels, predictions)
+    accuracies.append(accuracy)
+
+plt.figure(figsize=(10, 6))
+plt.plot(range(1, epochs + 1), accuracies, marker='o', linestyle='-', color='b')
+plt.title('Model Accuracy Over Epochs')
+plt.xlabel('Epoch')
+plt.ylabel('Accuracy')
+plt.grid(True)
+plt.savefig(os.path.join(charts_folder, 'accuracy_over_epochs.png'))
+plt.show()
+
+# Plot classification report as a heatmap
+
+report = classification_report(encoded_test_labels, predictions, target_names=label_encoder.classes_, output_dict=True)
+report_df = pd.DataFrame(report).transpose()
+
+plt.figure(figsize=(12, 8))
+sns.heatmap(report_df.iloc[:-1, :-1], annot=True, cmap='Blues', fmt='.2f')
+plt.title('Classification Report Heatmap')
+plt.savefig(os.path.join(charts_folder, 'classification_report_heatmap.png'))
+plt.show()
