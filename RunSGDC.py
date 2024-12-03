@@ -6,8 +6,6 @@ from sklearn.linear_model import SGDClassifier
 from sklearn.preprocessing import LabelEncoder
 import joblib
 import os
-import seaborn as sns
-from sklearn.metrics import confusion_matrix
 
 # File paths
 train_file_1 = r"Data/BBC_train_2_tokens.csv"
@@ -43,7 +41,7 @@ train_texts = train_texts_1
 train_labels = train_labels_1
 
 # Subset the training data
-subset_size = min(500, len(train_texts))
+subset_size = 500
 subset_indices = random.sample(range(len(train_texts)), subset_size)
 train_texts = [train_texts[i] for i in subset_indices]
 train_labels = [train_labels[i] for i in subset_indices]
@@ -78,7 +76,7 @@ test_labels = load_test_labels(test_labels_file)
 
 # Initialize or load vectorizer
 if not os.path.exists(vectorizer_file):
-    vectorizer = TfidfVectorizer(max_features=5000)
+    vectorizer = TfidfVectorizer(max_features=10516)
     train_vectors = vectorizer.fit_transform(train_texts).toarray()
     joblib.dump(vectorizer, vectorizer_file)
 else:
@@ -116,37 +114,3 @@ for epoch in range(NUM_EPOCHS):
 
 # Save the updated model
 joblib.dump(sgdc_model, sgdc_model_file)
-import matplotlib.pyplot as plt
-
-# Create Charts directory if it doesn't exist
-charts_dir = "Charts"
-if not os.path.exists(charts_dir):
-    os.makedirs(charts_dir)
-
-# Plot accuracy over epochs
-epochs = list(range(1, NUM_EPOCHS + 1))
-accuracies = []
-
-for epoch in range(NUM_EPOCHS):
-    predictions = sgdc_model.predict(test_vectors)
-    accuracy = accuracy_score(encoded_test_labels, predictions)
-    accuracies.append(accuracy)
-
-plt.figure(figsize=(10, 6))
-plt.plot(epochs, accuracies, marker='o', linestyle='-', color='b')
-plt.title('Accuracy over Epochs')
-plt.xlabel('Epoch')
-plt.ylabel('Accuracy')
-plt.grid(True)
-plt.savefig(os.path.join(charts_dir, 'accuracy_over_epochs.png'))
-plt.close()
-
-# Plot confusion matrix
-conf_matrix = confusion_matrix(encoded_test_labels, predictions)
-plt.figure(figsize=(10, 8))
-sns.heatmap(conf_matrix, annot=True, fmt='d', cmap='Blues', xticklabels=label_encoder.classes_, yticklabels=label_encoder.classes_)
-plt.title('Confusion Matrix')
-plt.xlabel('Predicted Labels')
-plt.ylabel('True Labels')
-plt.savefig(os.path.join(charts_dir, 'confusion_matrix.png'))
-plt.close()
