@@ -16,7 +16,7 @@ vectorizer_file = r"Joblib/vectorizer.joblib"
 label_encoder_file = r"Joblib/label_encoder.joblib"
 
 # Number of epochs
-NUM_EPOCHS = 5
+NUM_EPOCHS = 40
 
 # Load and process training data
 def load_data(file_path):
@@ -112,5 +112,20 @@ for epoch in range(NUM_EPOCHS):
     print(f"Epoch {epoch + 1} Accuracy: {accuracy_score(encoded_test_labels, predictions):.4f}")
     print(f"Epoch {epoch + 1} Classification Report:\n", classification_report(encoded_test_labels, predictions, target_names=label_encoder.classes_))
 
+<<<<<<< Updated upstream
+=======
+    # Generate confusion matrix
+    cm = confusion_matrix(encoded_test_labels, predictions)
+    plt.figure(figsize=(10, 7))
+    sns.heatmap(cm, annot=True, fmt='d', cmap='Blues', xticklabels=label_encoder.classes_, yticklabels=label_encoder.classes_)
+    plt.xlabel('Predicted')
+    plt.ylabel('Actual')
+    plt.title(f'Confusion Matrix - Epoch {epoch + 1}')
+    plt.savefig(os.path.join(charts_folder, f'confusion_matrix_epoch_{epoch + 1}.png'))
+    plt.close()
+    if accuracy_score(encoded_test_labels, predictions) > 0.97:
+        break
+
+>>>>>>> Stashed changes
 # Save the updated model
 joblib.dump(sgdc_model, sgdc_model_file)
