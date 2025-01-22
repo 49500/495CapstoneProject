@@ -2,6 +2,9 @@
 Authors: Samuel Theising, JT Wellspring, Nassim Zerrouak, and Zane Smith.
 
 Will be following the footsteps of Prof. Chowdhury and testing a Mutual Learning Algorithm.
+
+### [Final Report](Report.html)
+
 ### How to run the program
 Must download python. We are using 3.12.5 to run and implement our own version of the project. To view:
 ```python
@@ -30,4 +33,4 @@ python runNaiveBayes.py
 python runSvm.py
 ```
 ### Last Updated
-This README was updated on 9/7/24
+This README was updated on 01/22/25
