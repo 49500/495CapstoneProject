@@ -3,7 +3,7 @@ Authors: Samuel Theising, JT Wellspring, Nassim Zerrouak, and Zane Smith.
 
 Will be following the footsteps of Prof. Chowdhury and testing a Mutual Learning Algorithm.
 
-### [Final Report](Report.html)
+### [Final Report](https://49500.github.io/495CapstoneProject/Report.html)
 
 ### How to run the program
 Must download python. We are using 3.12.5 to run and implement our own version of the project. To view:
